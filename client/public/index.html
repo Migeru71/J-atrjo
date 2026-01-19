@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#11d411" />
+    <meta name="description" content="Plataforma para el aprendizaje y preservación de la lengua Mazahua" />
+
+    <title>Mazahua Connect - Revitaliza tus Raíces</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700;900&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <script>
+        // Configuración de colores personalizada que definimos antes
+        /*tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#11d411",
+                        "primary-dark": "#0ea60e",
+                        "background-light": "#f6f8f6",
+                        "background-dark": "#102210",
+                        "surface-light": "#ffffff",
+                        "surface-dark": "#1a331a",
+                        "text-main-light": "#0d1b0d",
+                        "text-main-dark": "#f0fdf0",
+                    },
+                    fontFamily: {
+                        "display": ["Lexend", "sans-serif"]
+                    }
+                },
+            },
+        };*/
+
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        // Mantenemos tus nombres, pero cambiamos el "puro color"
+                        "primary": "#E65100",           // primaryOrange (Naranja)
+                        "primary-dark": "#1E3A8A",      // primaryBlue (Azul)
+                        "background-light": "#A8E6CF",  // backgroundGradientStart
+                        "background-dark": "#1E3A8A",   // Usamos el Azul para fondos oscuros
+                        "surface-light": "#FFFFFF",     // cardBackground
+                        "surface-dark": "#1E3A8A",      // Azul profundo para superficies oscuras
+                        "text-main-light": "#374151",   // textPrimary (Gris oscuro)
+                        "text-main-dark": "#FFFFFF",    // Blanco para lectura en oscuro
+                        "accent-pink": "#D81B60",       // foundWordColor (Para resaltar)
+                    },
+                    fontFamily: {
+                        // Actualizamos a Poppins para títulos y Public Sans para cuerpo
+                        "display": ["Poppins", "sans-serif"],
+                        "sans": ["Public Sans", "sans-serif"]
+                    }
+                },
+            },
+        };
+    </script>
+</head>
+
+<body class="font-display">
+    <noscript>Necesitas habilitar JavaScript para ejecutar esta aplicación.</noscript>
+
+    <div id="root"></div>
+
+</body>
+
+</html>
