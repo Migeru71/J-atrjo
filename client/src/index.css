@@ -1,19 +1,14 @@
-/* Directivas base de Tailwind para tu proyecto */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Estilos globales adicionales para Mazahua Connect */
 body {
     margin: 0;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 
-    /* Aplicación del Gradiente definido en el tema */
-    /* Iniciando en #A8E6CF y terminando en #FFF9C4 */
+    /* Gradiente vertical: de menta (#A8E6CF) a amarillo (#FFF9C4) */
     background: linear-gradient(180deg, #A8E6CF 0%, #FFF9C4 100%);
-
-    /* Propiedades para asegurar que el fondo cubra toda la pantalla */
     background-attachment: fixed;
     min-height: 100vh;
 }
