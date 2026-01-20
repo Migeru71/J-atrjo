@@ -1,39 +1,80 @@
-import React, { useState } from 'react';
-import LoginForm from '../components/LoginForm';
-import RegisterForm from '../components/RegisterForm';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const AuthPage = () => {
-    const [isLogin, setIsLogin] = useState(true);
+    const location = useLocation();
+    // Capturamos el modo desde el Navbar/Hero o por defecto 'login'
+    const [authMode, setAuthMode] = useState(location.state?.mode || 'login');
+    const [userType, setUserType] = useState('guest'); // guest, student, teacher
+
+    // Sincronizar estado si el usuario navega entre login/registro desde el navbar
+    useEffect(() => {
+        if (location.state?.mode) {
+            setAuthMode(location.state.mode);
+        }
+    }, [location.state]);
 
     return (
-        <div className="flex min-h-screen w-full flex-row overflow-hidden bg-background-light dark:bg-background-dark">
-            {/* Panel Izquierdo Visual (Mantenido del código base) */}
-            <div className="hidden lg:flex w-1/2 relative bg-background-dark flex-col justify-end p-12 overflow-hidden group">
-                <div className="absolute inset-0 z-0 bg-cover bg-center" style={{ backgroundImage: "url('path_to_mazahua_pattern')" }}></div>
-                <div className="relative z-20">
-                    <h1 className="text-4xl font-extrabold text-white leading-tight">Preserve heritage.<br />Speak the future.</h1>
-                </div>
+        <div className="...">
+            {/* Toggle de Modo (Login/Register) */}
+            <div className="bg-[#e7f3e7] p-1.5 rounded-xl flex w-full">
+                <button
+                    onClick={() => setAuthMode('login')}
+                    className={`flex-1 py-2.5 rounded-lg font-semibold ${authMode === 'login' ? 'bg-white shadow-sm' : 'text-text-muted'}`}
+                >Log In</button>
+                <button
+                    onClick={() => {
+                        setAuthMode('register');
+                        setUserType('guest'); // Forzamos a Guest en registro según requerimiento
+                    }}
+                    className={`flex-1 py-2.5 rounded-lg font-semibold ${authMode === 'register' ? 'bg-white shadow-sm' : 'text-text-muted'}`}
+                >Sign Up</button>
             </div>
 
-            {/* Panel Derecho de Interacción */}
-            <div className="w-full lg:w-1/2 flex flex-col items-center justify-center p-6">
-                <div className="w-full max-w-[480px] flex flex-col gap-8">
+            {/* Selector de Usuario: SOLO visible en Login */}
+            {authMode === 'login' && (
+                <div className="grid grid-cols-3 gap-3 my-4">
+                    {/* Botones Estudiante, Maestro y Guest que ya tienes en el código */}
+                </div>
+            )}
 
-                    {/* Selector de Modo: Login / Sign Up */}
-                    <div className="bg-[#e7f3e7] dark:bg-[#1a331a] p-1.5 rounded-xl flex w-full">
-                        <button
-                            onClick={() => setIsLogin(true)}
-                            className={`flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all ${isLogin ? 'bg-white shadow-sm text-text-main' : 'text-text-muted'}`}
-                        >Log In</button>
-                        <button
-                            onClick={() => setIsLogin(false)}
-                            className={`flex-1 py-2.5 text-sm font-semibold rounded-lg transition-all ${!isLogin ? 'bg-white shadow-sm text-text-main' : 'text-text-muted'}`}
-                        >Sign Up</button>
+            {/* Renderizado Condicional de Formularios */}
+            <form className="flex flex-col gap-4">
+                {authMode === 'login' ? (
+                    <>
+                        {userType === 'student' && (
+                            <div className="space-y-4">
+                                <p className="text-center font-bold text-primary">Acceso con Código de Clase</p>
+                                <input className="auth-input text-center text-2xl" placeholder="ID Estudiante" />
+                                <input className="auth-input text-center" type="password" placeholder="PIN (4 dígitos)" />
+                            </div>
+                        )}
+                        {userType === 'teacher' && (
+                            <div className="space-y-4">
+                                <input className="auth-input" placeholder="Nombre Completo del Maestro" />
+                                <input className="auth-input" type="password" placeholder="Contraseña" />
+                            </div>
+                        )}
+                        {userType === 'guest' && (
+                            <div className="space-y-4">
+                                <input className="auth-input" type="email" placeholder="Email" />
+                                <input className="auth-input" type="password" placeholder="Contraseña" />
+                            </div>
+                        )}
+                    </>
+                ) : (
+                    /* Registro: Solo permite campos para Visitante (Guest) */
+                    <div className="space-y-4">
+                        <input className="auth-input" placeholder="Nombre Completo" />
+                        <input className="auth-input" type="email" placeholder="Email Address" />
+                        <input className="auth-input" type="password" placeholder="Create Password" />
                     </div>
+                )}
 
-                    {isLogin ? <LoginForm /> : <RegisterForm />}
-                </div>
-            </div>
+                <button type="button" className="btn-primary mt-4">
+                    {authMode === 'login' ? 'Entrar' : 'Crear Cuenta'}
+                </button>
+            </form>
         </div>
     );
 };

@@ -2,15 +2,18 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
-import Register from './pages/Register';
+import AuthPage from './pages/AuthPage'; // 1. IMPORTACIÓN CRÍTICA
 
 function App() {
-    // Datos simulados (Mock) para no depender de la BD aún
+    // Datos simulados (Mock) actualizados para coincidir con la estructura del Hero
     const mockStats = {
-        active_learners: "500+",
+        hero: {
+            badge: "Nuevo Curso Interactivo Disponible",
+            student_count: "500+"
+        },
         daily_phrase: {
-            mazahua: "Ki jñaa kjo",
-            spanish: "Habla bien / Saludo",
+            phrase: "Ki jñaa kjo",
+            translation: "Habla bien / Saludo",
             context: "Frase de cortesía tradicional."
         }
     };
@@ -18,17 +21,18 @@ function App() {
     return (
         <Router>
             <div className="min-h-screen bg-background-light dark:bg-background-dark text-text-main-light dark:text-text-main-dark">
-                {/* El Navbar se mantiene arriba en todas las vistas */}
                 <Navbar />
 
                 <Routes>
                     {/* Ruta Raíz: Página de inicio */}
                     <Route path="/" element={<Home stats={mockStats} />} />
 
-                    {/* Ruta de Registro: La pantalla de la imagen que enviaste */}
-                    <Route path="/registro" element={<Register />} />
+                    {/* 2. RUTA DE AUTENTICACIÓN: Esta es la que faltaba */}
+                    {/* Aquí es donde llegarán los usuarios al pulsar Login o Register */}
+                    <Route path="/auth" element={<AuthPage />} />
 
-                    {/* Podrás agregar /login o /cursos más adelante */}
+                    {/* Puedes mantener /registro si lo deseas, o borrarlo si usarás solo /auth */}
+                    <Route path="/registro" element={<AuthPage />} />
                 </Routes>
             </div>
         </Router>

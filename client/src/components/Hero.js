@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Hero = ({ stats }) => {
     return (
@@ -24,10 +25,13 @@ const Hero = ({ stats }) => {
                             <button className="flex items-center justify-center h-12 px-6 bg-primary text-surface-dark font-bold text-base rounded-lg hover:bg-primary-dark transition-all transform hover:scale-[1.02] shadow-lg shadow-primary/25">
                                 Comenzar a aprender ahora
                             </button>
-                            <button className="flex items-center justify-center h-12 px-6 bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 text-text-main-light dark:text-white font-medium text-base rounded-lg hover:bg-gray-50 dark:hover:bg-white/10 transition-colors">
-                                <span className="material-symbols-outlined mr-2 text-lg">play_circle</span>
-                                Ver Introducción
-                            </button>
+                            <Link
+                                to="/auth"
+                                state={{ mode: 'register' }}
+                                className="bg-primary text-white px-8 py-3 rounded-xl font-bold text-lg hover:bg-primary-dark transition-all transform active:scale-95 shadow-lg shadow-primary/25"
+                            >
+                                Comienza a aprender ahora
+                            </Link>
                         </div>
 
                         {/* Estadísticas dinámicas del Backend */}
