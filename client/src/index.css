@@ -5,7 +5,7 @@
 
 @layer base {
     body {
-        /* Gradiente vertical según guía de estilo */
+        /* Gradiente vertical de fondo según tu guía de estilo */
         background: linear-gradient(180deg, #A8E6CF 0%, #FFF9C4 100%);
         background-attachment: fixed;
         min-height: 100vh;
@@ -14,21 +14,22 @@
 
 @layer components {
 
-    /* Clase para los campos de texto del Login/Registro */
+    /* Estilos para los campos de entrada del Login/Registro */
     .auth-input {
         @apply w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-primary text-text-main-light placeholder-gray-400 transition-all shadow-sm;
     }
 
-    /* Clase para los botones principales naranja */
+    /* Estilos para el botón principal (Naranja) */
     .btn-primary {
-        @apply w-full py-3.5 px-4 bg-primary text-white font-bold text-lg rounded-lg shadow-lg shadow-primary/20 transition-all duration-200 transform hover:bg-opacity-90 active:scale-[0.98] flex items-center justify-center gap-2;
+        @apply w-full py-3.5 px-4 bg-primary text-white font-bold text-lg rounded-lg shadow-lg shadow-primary/20 transition-all duration-200 transform hover:opacity-90 active:scale-[0.98] flex items-center justify-center gap-2;
     }
 
-    /* Clase para las tarjetas de tipo de usuario (Niño, Maestro) */
+    /* Estilos para las tarjetas de selección de perfil (Niño, Maestro, etc.) */
     .user-type-card {
-        @apply flex flex-col items-center justify-center gap-2 p-3 rounded-card-md border-2 border-transparent bg-white shadow-sm hover:border-primary/30 transition-all h-28 cursor-pointer;
+        @apply flex flex-col items-center justify-center gap-2 p-3 rounded-xl border-2 border-transparent bg-white shadow-sm hover:border-primary/30 transition-all h-28 cursor-pointer;
     }
 
+    /* Clase de estado activo para la selección de perfil */
     .user-type-card-active {
         @apply border-primary bg-orange-50/50 shadow-none;
     }

@@ -22,9 +22,7 @@ const Hero = ({ stats }) => {
                         </p>
 
                         <div className="flex flex-col sm:flex-row gap-4 pt-2">
-                            <button className="flex items-center justify-center h-12 px-6 bg-primary text-surface-dark font-bold text-base rounded-lg hover:bg-primary-dark transition-all transform hover:scale-[1.02] shadow-lg shadow-primary/25">
-                                Comenzar a aprender ahora
-                            </button>
+
                             <Link
                                 to="/auth"
                                 state={{ mode: 'register' }}
