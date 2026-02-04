@@ -35,7 +35,7 @@ const Footer = () => {
                             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/20 text-primary-dark dark:text-primary">
                                 <span className="material-symbols-outlined">school</span>
                             </div>
-                            <h2 className="text-lg font-bold text-text-main-light dark:text-white">Mazahua Connect</h2>
+                            <h2 className="text-lg font-bold text-text-main-light dark:text-white">NTS'I FÍYO</h2>
                         </div>
                         <p className="text-sm text-text-sub-light dark:text-text-sub-dark mb-6">
                             Empoderando a la próxima generación para hablar, vivir y celebrar la lengua Mazahua.
@@ -97,7 +97,7 @@ const Footer = () => {
                 {/* BARRA INFERIOR: Copyright y Legales */}
                 <div className="border-t border-gray-200 dark:border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
                     <p className="text-xs text-text-sub-light dark:text-text-sub-dark">
-                        © 2026 Mazahua Connect. Todos los derechos reservados.
+                        © 2026 NTS'I FÍYO. Todos los derechos reservados.
                     </p>
                     <div className="flex gap-6 text-xs text-text-sub-light dark:text-text-sub-dark">
                         <a className="hover:text-primary transition-colors" href="#">Política de Privacidad</a>

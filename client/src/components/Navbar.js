@@ -16,7 +16,7 @@ const Navbar = () => {
                         <span className="material-symbols-outlined">school</span>
                     </div>
                     <h1 className="text-xl font-bold tracking-tight text-text-main-light dark:text-text-main-dark">
-                        Mazahua Connect
+                        NTS'I FÍYO
                     </h1>
                 </Link>
 
@@ -48,6 +48,8 @@ const Navbar = () => {
                         Registrarse
                     </Link>
 
+
+
                     {/* Menú Móvil */}
                     <button className="md:hidden flex h-9 w-9 items-center justify-center rounded-lg hover:bg-gray-100 text-text-main-light dark:text-text-main-dark">
                         <span className="material-symbols-outlined">menu</span>
@@ -57,5 +59,12 @@ const Navbar = () => {
         </header>
     );
 };
+
+// En tu Navbar
+React.createElement(
+    'a',
+    { href: '/games/memorama', className: 'nav-link' },
+    '🎮 Memorama'
+);
 
 export default Navbar;

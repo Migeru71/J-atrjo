@@ -6,27 +6,83 @@ const AuthPage = () => {
     const [authMode, setAuthMode] = useState(location.state?.mode || 'login');
     const [userType, setUserType] = useState('student');
 
-    // Estados para el login simplificado del estudiante
-    const [classCode, setClassCode] = useState('');
-    const [iconSequence, setIconSequence] = useState([]);
+    // Estados para el login del estudiante
+    const [studentName, setStudentName] = useState('');
+    const [magicNumber, setMagicNumber] = useState('');
+    const [grade, setGrade] = useState('');
+    const [nameError, setNameError] = useState('');
 
-    // Iconos disponibles para la contraseña visual
-    const visualIcons = [
-        { id: 'sun', icon: 'sunny', label: 'Sol' },
-        { id: 'flower', icon: 'local_florist', label: 'Flor' },
-        { id: 'deer', icon: 'cruelty_free', label: 'Venado' },
-        { id: 'moon', icon: 'dark_mode', label: 'Luna' },
-        { id: 'tree', icon: 'park', label: 'Árbol' },
-        { id: 'bird', icon: 'flutter_dash', label: 'Pájaro' },
+    // Grados disponibles
+    const grades = [
+        { value: '1', label: '1º Primero' },
+        { value: '2', label: '2º Segundo' },
+        { value: '3', label: '3º Tercero' },
+        { value: '4', label: '4º Cuarto' },
+        { value: '5', label: '5º Quinto' },
+        { value: '6', label: '6º Sexto' }
     ];
 
-    const handleIconClick = (iconId) => {
-        if (iconSequence.length < 3) {
-            setIconSequence([...iconSequence, iconId]);
-        }
+    // Función para validar y formatear el nombre
+    const formatName = (name) => {
+        return name
+            .split(' ')
+            .map(word => {
+                if (word.length === 0) return '';
+                return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+            })
+            .join(' ');
     };
 
-    const clearSequence = () => setIconSequence([]);
+    // Función para validar el nombre
+    const validateName = (name) => {
+        if (!name.trim()) {
+            return 'Por favor ingresa tu nombre';
+        }
+
+        const words = name.trim().split(/\s+/);
+        for (const word of words) {
+            if (word.length === 0) continue;
+
+            // Verificar que la primera letra sea mayúscula
+            if (word.charAt(0) !== word.charAt(0).toUpperCase()) {
+                return 'La primera letra de cada nombre debe ser mayúscula';
+            }
+
+            // Verificar que el resto sean minúsculas
+            const rest = word.slice(1);
+            if (rest !== rest.toLowerCase()) {
+                return 'Las demás letras deben ser minúsculas';
+            }
+        }
+
+        return '';
+    };
+
+    // Manejar cambio de nombre con formateo automático
+    const handleNameChange = (e) => {
+        const value = e.target.value;
+        const formatted = formatName(value);
+        setStudentName(formatted);
+        setNameError('');
+    };
+
+    // Validar antes de enviar
+    const handleStudentLogin = () => {
+        const error = validateName(studentName);
+        if (error) {
+            setNameError(error);
+            return false;
+        }
+        if (!magicNumber.trim()) {
+            setNameError('Por favor ingresa tu número mágico');
+            return false;
+        }
+        if (!grade) {
+            setNameError('Por favor selecciona tu grado');
+            return false;
+        }
+        return true;
+    };
 
     useEffect(() => {
         if (location.state?.mode) setAuthMode(location.state.mode);
@@ -43,7 +99,7 @@ const AuthPage = () => {
                 <div className="relative z-20 text-center">
                     <div className="flex items-center justify-center gap-3 mb-4">
                         <span className="material-symbols-outlined text-primary text-4xl">language</span>
-                        <h3 className="text-white text-xl font-bold uppercase tracking-widest">Mazahua Connect</h3>
+                        <h3 className="text-white text-xl font-bold uppercase tracking-widest">NTS'I FÍYO</h3>
                     </div>
                     <h1 className="text-4xl xl:text-5xl font-extrabold text-white leading-tight">Preserva el patrimonio.<br />Habla el futuro.</h1>
                 </div>
@@ -61,7 +117,7 @@ const AuthPage = () => {
 
                     <div className="flex flex-col gap-2 text-center lg:text-left">
                         <h2 className="text-3xl font-bold text-primary-dark tracking-tight">{authMode === 'login' ? '¡Hola de nuevo!' : 'Crea una cuenta'}</h2>
-                        <p className="text-gray-500">{userType === 'student' ? 'Escribe tu código y elige tus figuras secretas.' : 'Nos alegra verte otra vez.'}</p>
+                        <p className="text-gray-500">{userType === 'student' ? 'Escribe tu nombre y número mágico para entrar.' : 'Nos alegra verte otra vez.'}</p>
                     </div>
 
                     {authMode === 'login' && (
@@ -81,52 +137,67 @@ const AuthPage = () => {
                     {/* FORMULARIO DINÁMICO */}
                     <div className="flex flex-col gap-6">
                         {userType === 'student' && authMode === 'login' ? (
-                            /* --- LOGIN SIMPLIFICADO NIÑOS --- */
-                            <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                            /* --- LOGIN DEL ESTUDIANTE --- */
+                            <div className="space-y-5 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                                {/* Campo de Nombre */}
                                 <div className="space-y-1">
-                                    <label className="text-sm font-bold text-primary-dark uppercase tracking-wider">Tu Código de Clase</label>
-                                    <input
-                                        className="w-full px-4 py-4 bg-white border-2 border-orange-100 rounded-2xl text-2xl text-center font-bold text-primary focus:border-primary focus:ring-0 outline-none transition-all placeholder:text-orange-200"
-                                        placeholder="ABC-123"
-                                        value={classCode}
-                                        onChange={(e) => setClassCode(e.target.value.toUpperCase())}
-                                    />
+                                    <label className="text-sm font-bold text-primary-dark uppercase tracking-wider">Tu Nombre Completo</label>
+                                    <div className="relative">
+                                        <span className="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400 material-symbols-outlined">person</span>
+                                        <input
+                                            className={`w-full pl-12 pr-4 py-4 bg-white border-2 rounded-2xl text-lg font-medium text-primary-dark focus:border-primary focus:ring-0 outline-none transition-all placeholder:text-gray-300 ${nameError ? 'border-red-300' : 'border-orange-100'}`}
+                                            placeholder="Ej. Maria Gonzalez"
+                                            value={studentName}
+                                            onChange={handleNameChange}
+                                        />
+                                    </div>
+                                    <p className="text-xs text-gray-400 pl-1">Primera letra mayúscula, el resto minúsculas</p>
                                 </div>
 
-                                <div className="space-y-3">
-                                    <div className="flex justify-between items-end">
-                                        <label className="text-sm font-bold text-primary-dark uppercase tracking-wider">Tu Llave Mágica</label>
-                                        <button onClick={clearSequence} className="text-xs font-bold text-primary hover:underline">Borrar todo</button>
+                                {/* Campo de Número Mágico */}
+                                <div className="space-y-1">
+                                    <label className="text-sm font-bold text-primary-dark uppercase tracking-wider">Tu Número Mágico</label>
+                                    <div className="relative">
+                                        <span className="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400 material-symbols-outlined">tag</span>
+                                        <input
+                                            type="number"
+                                            className="w-full pl-12 pr-4 py-4 bg-white border-2 border-orange-100 rounded-2xl text-lg font-medium text-center text-primary-dark focus:border-primary focus:ring-0 outline-none transition-all placeholder:text-gray-300"
+                                            placeholder="Ej. 15"
+                                            value={magicNumber}
+                                            onChange={(e) => setMagicNumber(e.target.value)}
+                                            min="1"
+                                            max="99"
+                                        />
                                     </div>
+                                    <p className="text-xs text-gray-400 pl-1">Tu número de lista o número asignado</p>
+                                </div>
 
-                                    {/* Slots de la secuencia */}
-                                    <div className="flex gap-4 justify-center py-2">
-                                        {[0, 1, 2].map((i) => (
-                                            <div key={i} className={`w-16 h-16 rounded-2xl border-2 flex items-center justify-center bg-white ${iconSequence[i] ? 'border-primary bg-orange-50' : 'border-dashed border-orange-200'}`}>
-                                                {iconSequence[i] && (
-                                                    <span className="material-symbols-outlined text-3xl text-primary animate-in zoom-in duration-300">
-                                                        {visualIcons.find(v => v.id === iconSequence[i]).icon}
-                                                    </span>
-                                                )}
-                                            </div>
-                                        ))}
-                                    </div>
-
-                                    {/* Selector de iconos */}
-                                    <div className="grid grid-cols-3 gap-3 pt-4">
-                                        {visualIcons.map((v) => (
-                                            <button
-                                                key={v.id}
-                                                onClick={() => handleIconClick(v.id)}
-                                                disabled={iconSequence.length >= 3}
-                                                className="flex flex-col items-center p-3 bg-white rounded-xl border border-orange-50 hover:bg-orange-50 hover:border-primary/30 transition-all active:scale-95 disabled:opacity-50 disabled:grayscale"
-                                            >
-                                                <span className="material-symbols-outlined text-2xl text-primary-dark">{v.icon}</span>
-                                                <span className="text-[10px] font-bold text-gray-400 mt-1 uppercase">{v.label}</span>
-                                            </button>
-                                        ))}
+                                {/* Selector de Grado */}
+                                <div className="space-y-1">
+                                    <label className="text-sm font-bold text-primary-dark uppercase tracking-wider">Tu Grado Escolar</label>
+                                    <div className="relative">
+                                        <span className="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400 material-symbols-outlined">school</span>
+                                        <select
+                                            className="w-full pl-12 pr-4 py-4 bg-white border-2 border-orange-100 rounded-2xl text-lg font-medium text-primary-dark focus:border-primary focus:ring-0 outline-none transition-all appearance-none cursor-pointer"
+                                            value={grade}
+                                            onChange={(e) => setGrade(e.target.value)}
+                                        >
+                                            <option value="" disabled>Selecciona tu grado...</option>
+                                            {grades.map((g) => (
+                                                <option key={g.value} value={g.value}>{g.label}</option>
+                                            ))}
+                                        </select>
+                                        <span className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 material-symbols-outlined pointer-events-none">expand_more</span>
                                     </div>
                                 </div>
+
+                                {/* Mensaje de Error */}
+                                {nameError && (
+                                    <div className="flex items-center gap-2 p-3 bg-red-50 border border-red-200 rounded-xl text-red-600 text-sm">
+                                        <span className="material-symbols-outlined text-lg">error</span>
+                                        <span>{nameError}</span>
+                                    </div>
+                                )}
                             </div>
                         ) : (
                             /* --- LOGIN / REGISTRO ESTÁNDAR --- */
@@ -140,13 +211,26 @@ const AuthPage = () => {
                                         </div>
                                     </div>
                                 )}
-                                <div className="space-y-1">
-                                    <label className="text-sm font-medium text-primary-dark">Correo Electrónico</label>
-                                    <div className="relative">
-                                        <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400 material-symbols-outlined">mail</span>
-                                        <input className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" placeholder="nombre@ejemplo.com" type="email" />
+
+                                {/* Usuario para Maestro, Email para Visitante */}
+                                {userType === 'teacher' ? (
+                                    <div className="space-y-1">
+                                        <label className="text-sm font-medium text-primary-dark">Usuario</label>
+                                        <div className="relative">
+                                            <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400 material-symbols-outlined">person</span>
+                                            <input className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" placeholder="Ej. maestro.gonzalez" type="text" />
+                                        </div>
                                     </div>
-                                </div>
+                                ) : (
+                                    <div className="space-y-1">
+                                        <label className="text-sm font-medium text-primary-dark">Correo Electrónico</label>
+                                        <div className="relative">
+                                            <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400 material-symbols-outlined">mail</span>
+                                            <input className="w-full pl-10 pr-4 py-3 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none" placeholder="nombre@ejemplo.com" type="email" />
+                                        </div>
+                                    </div>
+                                )}
+
                                 <div className="space-y-1">
                                     <label className="text-sm font-medium text-primary-dark">Contraseña</label>
                                     <div className="relative">
@@ -157,7 +241,29 @@ const AuthPage = () => {
                             </form>
                         )}
 
-                        <button type="button" className="w-full mt-4 py-4 bg-primary hover:bg-primary-dark text-white font-bold rounded-2xl shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2 text-lg">
+                        <button
+                            type="button"
+                            onClick={() => {
+                                // Si es estudiante y está haciendo login
+                                if (authMode === 'login' && userType === 'student') {
+                                    // TODO: Reactivar validación cuando esté listo
+                                    // if (handleStudentLogin()) {
+                                    //     window.location.href = '/estudiante/dashboard';
+                                    // }
+                                    window.location.href = '/estudiante/dashboard';
+                                } else if (authMode === 'login' && userType === 'teacher') {
+                                    // Redirigir al dashboard del maestro
+                                    window.location.href = '/maestro/dashboard';
+                                } else if (authMode === 'login') {
+                                    // Para visitantes u otros tipos de usuario
+                                    console.log('Login para', userType);
+                                } else {
+                                    // Registro
+                                    console.log('Registro de nueva cuenta');
+                                }
+                            }}
+                            className="w-full mt-4 py-4 bg-primary hover:bg-primary-dark text-white font-bold rounded-2xl shadow-lg shadow-primary/20 transition-all flex items-center justify-center gap-2 text-lg"
+                        >
                             <span>{authMode === 'login' ? '¡Entrar a Clase!' : 'Crear Cuenta'}</span>
                             <span className="material-symbols-outlined">rocket_launch</span>
                         </button>
